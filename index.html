@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>DinasKu</title>
-  <!-- Tambahkan favicon -->
+  <!-- Favicon -->
   <link rel="icon" type="image/png" href="images/logo-dinas.jpeg">
   <style>
     body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
@@ -14,11 +14,25 @@
     .search-box input { padding: 5px; border: none; border-radius: 3px; }
     .search-box button { background: #006699; color: white; border: none; padding: 5px 10px; margin-left: 5px; border-radius: 3px; cursor: pointer; }
 
-    nav { background: #006699; }
-    nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; }
+    nav { background: #006699; width: 100%; position: relative; }
+    nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; width: 100%; }
     nav ul li { position: relative; }
-    nav ul li a { color: white; padding: 15px 20px; display: block; text-decoration: none; transition: background 0.3s, transform 0.2s; cursor: pointer; }
+    nav ul li a { color: white; padding: 15px 30px; display: block; text-decoration: none; transition: background 0.3s, transform 0.2s; cursor: pointer; position: relative; }
     nav ul li a:hover { background: #004466; transform: scale(1.05); }
+    nav ul li a.active::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 3px;
+      background: yellow;
+      animation: slideLine 0.5s ease-in-out;
+    }
+    @keyframes slideLine {
+      from { width: 0; }
+      to { width: 100%; }
+    }
 
     nav ul li ul { display: none; position: absolute; background: #005580; top: 100%; left: 0; min-width: 160px; }
     nav ul li:hover ul { display: block; }
@@ -31,9 +45,13 @@
     footer { background: #004466; color: white; text-align: center; padding: 10px; }
     button { background: #004466; color: white; padding: 10px 20px; border: none; margin-top: 10px; cursor: pointer; transition: background 0.3s; }
     button:hover { background: #006699; }
+
+    /* Kolom upload */
+    .upload-box { margin-top: 20px; padding: 20px; border: 2px dashed #006699; border-radius: 5px; background: #f9f9f9; }
+    .upload-box input { margin-top: 10px; }
   </style>
   <script>
-    function showSection(id) {
+    function showSection(id, element) {
       let sections = document.querySelectorAll('section');
       sections.forEach(s => {
         s.classList.remove('active');
@@ -42,6 +60,11 @@
       let target = document.getElementById(id);
       target.classList.remove('hidden');
       setTimeout(() => target.classList.add('active'), 50);
+
+      // Highlight menu aktif
+      let links = document.querySelectorAll('nav ul li a');
+      links.forEach(link => link.classList.remove('active'));
+      if(element) element.classList.add('active');
     }
 
     function showService(id) {
@@ -55,15 +78,27 @@
       alert("Anda mencari: " + query);
     }
 
-    window.onload = () => showSection('beranda');
+    function uploadFile() {
+      let fileInput = document.getElementById('fileUpload');
+      if(fileInput.files.length > 0) {
+        alert("Berkas berhasil dipilih: " + fileInput.files[0].name);
+      } else {
+        alert("Silakan pilih berkas terlebih dahulu.");
+      }
+    }
+
+    window.onload = () => {
+      let defaultLink = document.querySelector('nav ul li a');
+      showSection('beranda', defaultLink);
+    };
   </script>
 </head>
 <body>
   <header>
-    <!-- Logo dinas dari gambar upload -->
+    <!-- Logo dinas -->
     <img src="images/logo-dinas.jpeg" alt="Logo Dinas">
     <h1>DinasKu</h1>
-    <!-- Tombol search di kanan -->
+    <!-- Tombol search -->
     <div class="search-box">
       <input type="text" id="searchInput" placeholder="Cari...">
       <button onclick="searchSite()">Search</button>
@@ -72,17 +107,17 @@
 
   <nav>
     <ul>
-      <li><a onclick="showSection('beranda')">Beranda</a></li>
-      <li><a onclick="showSection('profil')">Profil</a></li>
-      <li><a onclick="showSection('layanan')">Layanan</a></li>
-      <li><a onclick="showSection('data')">Data Statistik</a></li>
+      <li><a onclick="showSection('beranda', this)">Beranda</a></li>
+      <li><a onclick="showSection('profil', this)">Profil</a></li>
+      <li><a onclick="showSection('layanan', this)">Layanan</a></li>
+      <li><a onclick="showSection('data', this)">Data Statistik</a></li>
       <li>
         <a href="#">Sub Menu</a>
         <ul>
-          <li><a onclick="showSection('regulasi')">Regulasi</a></li>
-          <li><a onclick="showSection('pengaduan')">Pengaduan</a></li>
-          <li><a onclick="showSection('kontak')">Kontak</a></li>
-          <li><a onclick="showSection('berita')">Berita</a></li>
+          <li><a onclick="showSection('regulasi', this)">Regulasi</a></li>
+          <li><a onclick="showSection('pengaduan', this)">Pengaduan</a></li>
+          <li><a onclick="showSection('kontak', this)">Kontak</a></li>
+          <li><a onclick="showSection('berita', this)">Berita</a></li>
         </ul>
       </li>
     </ul>
@@ -91,6 +126,12 @@
   <section id="beranda">
     <h2>Beranda</h2>
     <p>Selamat datang di website resmi DinasKu.</p>
+    <!-- Kolom upload berkas -->
+    <div class="upload-box">
+      <h3>Upload Berkas</h3>
+      <input type="file" id="fileUpload">
+      <button onclick="uploadFile()">Upload</button>
+    </div>
   </section>
 
   <section id="profil" class="hidden">
