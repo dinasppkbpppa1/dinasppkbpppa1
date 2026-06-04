@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DinasKu</title>
+  <!-- Tambahkan favicon -->
+  <link rel="icon" type="image/png" href="images/logo-dinas.jpeg">
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+    header { background: #004466; color: white; padding: 10px 20px; display: flex; align-items: center; justify-content: space-between; }
+    header img { height: 60px; }
+    .search-box { display: flex; }
+    .search-box input { padding: 5px; border: none; border-radius: 3px; }
+    .search-box button { background: #006699; color: white; border: none; padding: 5px 10px; margin-left: 5px; border-radius: 3px; cursor: pointer; }
+
+    nav { background: #006699; }
+    nav ul { list-style: none; margin: 0; padding: 0; display: flex; justify-content: center; }
+    nav ul li { position: relative; }
+    nav ul li a { color: white; padding: 15px 20px; display: block; text-decoration: none; transition: background 0.3s, transform 0.2s; cursor: pointer; }
+    nav ul li a:hover { background: #004466; transform: scale(1.05); }
+
+    nav ul li ul { display: none; position: absolute; background: #005580; top: 100%; left: 0; min-width: 160px; }
+    nav ul li:hover ul { display: block; }
+    nav ul li ul li a { padding: 10px 15px; }
+
+    section { padding: 40px; opacity: 0; transition: opacity 0.6s ease-in-out; }
+    section.active { opacity: 1; }
+    .hidden { display: none; }
+
+    footer { background: #004466; color: white; text-align: center; padding: 10px; }
+    button { background: #004466; color: white; padding: 10px 20px; border: none; margin-top: 10px; cursor: pointer; transition: background 0.3s; }
+    button:hover { background: #006699; }
+  </style>
+  <script>
+    function showSection(id) {
+      let sections = document.querySelectorAll('section');
+      sections.forEach(s => {
+        s.classList.remove('active');
+        s.classList.add('hidden');
+      });
+      let target = document.getElementById(id);
+      target.classList.remove('hidden');
+      setTimeout(() => target.classList.add('active'), 50);
+    }
+
+    function showService(id) {
+      let services = document.querySelectorAll('.service');
+      services.forEach(s => s.classList.add('hidden'));
+      document.getElementById(id).classList.remove('hidden');
+    }
+
+    function searchSite() {
+      let query = document.getElementById('searchInput').value;
+      alert("Anda mencari: " + query);
+    }
+
+    window.onload = () => showSection('beranda');
+  </script>
+</head>
+<body>
+  <header>
+    <!-- Logo dinas dari gambar upload -->
+    <img src="images/logo-dinas.jpeg" alt="Logo Dinas">
+    <h1>DinasKu</h1>
+    <!-- Tombol search di kanan -->
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Cari...">
+      <button onclick="searchSite()">Search</button>
+    </div>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a onclick="showSection('beranda')">Beranda</a></li>
+      <li><a onclick="showSection('profil')">Profil</a></li>
+      <li><a onclick="showSection('layanan')">Layanan</a></li>
+      <li><a onclick="showSection('data')">Data Statistik</a></li>
+      <li>
+        <a href="#">Sub Menu</a>
+        <ul>
+          <li><a onclick="showSection('regulasi')">Regulasi</a></li>
+          <li><a onclick="showSection('pengaduan')">Pengaduan</a></li>
+          <li><a onclick="showSection('kontak')">Kontak</a></li>
+          <li><a onclick="showSection('berita')">Berita</a></li>
+        </ul>
+      </li>
+    </ul>
+  </nav>
+
+  <section id="beranda">
+    <h2>Beranda</h2>
+    <p>Selamat datang di website resmi DinasKu.</p>
+  </section>
+
+  <section id="profil" class="hidden">
+    <h2>Profil</h2>
+    <p>Informasi tentang visi, misi, dan struktur organisasi.</p>
+  </section>
+
+  <section id="layanan" class="hidden">
+    <h2>Layanan</h2>
+    <button onclick="showService('layanan1')">Layanan 1</button>
+    <button onclick="showService('layanan2')">Layanan 2</button>
+    <button onclick="showService('layanan3')">Layanan 3</button>
+
+    <div id="layanan1" class="service hidden">
+      <h3>Layanan 1</h3>
+      <p>Deskripsi detail layanan 1.</p>
+    </div>
+    <div id="layanan2" class="service hidden">
+      <h3>Layanan 2</h3>
+      <p>Deskripsi detail layanan 2.</p>
+    </div>
+    <div id="layanan3" class="service hidden">
+      <h3>Layanan 3</h3>
+      <p>Deskripsi detail layanan 3.</p>
+    </div>
+  </section>
+
+  <section id="data" class="hidden">
+    <h2>Data Statistik</h2>
+    <p>Grafik dan data statistik dinas.</p>
+  </section>
+
+  <section id="regulasi" class="hidden">
+    <h2>Regulasi</h2>
+    <p>Daftar regulasi dan kebijakan terbaru.</p>
+  </section>
+
+  <section id="pengaduan" class="hidden">
+    <h2>Pengaduan</h2>
+    <p>Formulir pengaduan masyarakat.</p>
+  </section>
+
+  <section id="kontak" class="hidden">
+    <h2>Kontak</h2>
+    <p>Email: info@dinasku.go.id</p>
+    <p>Telepon: 0411-123456</p>
+  </section>
+
+  <section id="berita" class="hidden">
+    <h2>Berita</h2>
+    <p>Informasi dan berita terbaru dari dinas.</p>
+  </section>
+
+  <footer>
+    <p>&copy; 2026 DinasKu</p>
+  </footer>
+</body>
+</html>
